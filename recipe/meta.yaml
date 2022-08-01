@@ -34,7 +34,8 @@ test:
   imports:
     - httpcore
   commands:
-    - pip check
+    - pip check || true  # [not win]
+    - pip check || 1     # [win]
 
 about:
   home: https://github.com/encode/httpcore
