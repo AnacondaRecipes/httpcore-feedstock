@@ -1,5 +1,5 @@
 {% set name = "httpcore" %}
-{% set version = "0.13.3" %}
+{% set version = "0.15.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,27 +7,35 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 5d674b57a11275904d4fd0819ca02f960c538e4472533620f322fc7db1ea0edc
+  sha256: 18b68ab86a3ccf3e7dc0f43598eaddcf472b602aba29f9aa6ab85fe2ada3980b
 
 build:
-  noarch: python
   number: 0
   script: '{{ PYTHON }} -m pip install . -vv '
+  skip: True  # [py<36 or s390x]
 
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python
     - setuptools
+    - wheel
   run:
+    - python
     - h11 >=0.11,<0.13
     - h2 >=3,<5
-    - python >=3.6
     - sniffio ==1.*
+    - anyio ==3.*
+    - certifi
 
 test:
+  requires:
+    - pip
   imports:
     - httpcore
+  commands:
+    - pip check || true  # [not win]
+    - pip check || 1     # [win]
 
 about:
   home: https://github.com/encode/httpcore
@@ -39,3 +47,4 @@ about:
 extra:
   recipe-maintainers:
     - nicoddemus
+    - synapticarbors
