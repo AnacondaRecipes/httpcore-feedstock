@@ -1,0 +1,36 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index 719fb18..603d980 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,5 +1,5 @@
+ [build-system]
+-requires = ["hatchling", "hatch-fancy-pypi-readme"]
++requires = ["hatchling"]
+ build-backend = "hatchling.build"
+ 
+ [project]
+@@ -63,15 +63,6 @@ include = [
+     "/tests"
+ ]
+ 
+-[tool.hatch.metadata.hooks.fancy-pypi-readme]
+-content-type = "text/markdown"
+-
+-[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+-path = "README.md"
+-
+-[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+-path = "CHANGELOG.md"
+-
+ [tool.mypy]
+ strict = true
+ show_error_codes = true
+@@ -96,7 +87,7 @@ filterwarnings = ["error"]
+ 
+ [tool.coverage.run]
+ omit = [
+-    "venv/*", 
++    "venv/*",
+     "httpcore/_sync/*"
+ ]
+ include = ["httpcore/*", "tests/*"]
