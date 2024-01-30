@@ -17,6 +17,9 @@ build:
   skip: True  # [py<38 or s390x]
 
 requirements:
+  build:
+    - patch  # [unix]
+    - m2-patch  # [win]
   host:
     - pip
     - python
@@ -42,6 +45,9 @@ about:
   license_family: BSD
   license_file: LICENSE.md
   summary: The next generation HTTP client.
+  description: The HTTP Core package provides a minimal low-level HTTP client, which does one thing only. Sending HTTP requests.
+  dev_url: https://github.com/encode/httpcore
+  doc_url: https://www.encode.io/httpcore/
 
 extra:
   recipe-maintainers:
