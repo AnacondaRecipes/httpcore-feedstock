@@ -8,6 +8,8 @@ package:
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 9fc092e4799b26174648e54b74ed5f683132a464e95643b226e00c2ed2fa6535
+  patches:
+    - patches/0001-remove-fancy-pypi-readme.patch
 
 build:
   number: 0
@@ -32,8 +34,7 @@ test:
   imports:
     - httpcore
   commands:
-    - pip check || true  # [not win]
-    - pip check || 1     # [win]
+    - pip check
 
 about:
   home: https://github.com/encode/httpcore
