@@ -1,5 +1,5 @@
 {% set name = "httpcore" %}
-{% set version = "0.15.0" %}
+{% set version = "1.0.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,26 +7,29 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 18b68ab86a3ccf3e7dc0f43598eaddcf472b602aba29f9aa6ab85fe2ada3980b
+  sha256: 9fc092e4799b26174648e54b74ed5f683132a464e95643b226e00c2ed2fa6535
+  patches:
+    - patches/0001-remove-fancy-pypi-readme.patch
 
 build:
   number: 0
-  script: '{{ PYTHON }} -m pip install . -vv '
-  skip: True  # [py<36 or s390x]
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: True  # [py<38 or s390x]
 
 requirements:
+  build:
+    - patch  # [unix]
+    - m2-patch  # [win]
   host:
     - pip
     - python
     - setuptools
     - wheel
+    - hatchling
   run:
     - python
-    - h11 >=0.11,<0.13
-    - h2 >=3,<5
-    - sniffio ==1.*
-    - anyio ==3.*
     - certifi
+    - h11 >=0.13,<0.15
 
 test:
   requires:
@@ -34,8 +37,7 @@ test:
   imports:
     - httpcore
   commands:
-    - pip check || true  # [not win]
-    - pip check || 1     # [win]
+    - pip check
 
 about:
   home: https://github.com/encode/httpcore
@@ -43,6 +45,9 @@ about:
   license_family: BSD
   license_file: LICENSE.md
   summary: The next generation HTTP client.
+  description: The HTTP Core package provides a minimal low-level HTTP client, which does one thing only. Sending HTTP requests.
+  dev_url: https://github.com/encode/httpcore
+  doc_url: https://www.encode.io/httpcore/
 
 extra:
   recipe-maintainers:
