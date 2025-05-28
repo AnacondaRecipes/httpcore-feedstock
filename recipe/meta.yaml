@@ -1,5 +1,5 @@
 {% set name = "httpcore" %}
-{% set version = "1.0.2" %}
+{% set version = "1.0.9" %}
 
 package:
   name: {{ name|lower }}
@@ -7,29 +7,23 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 9fc092e4799b26174648e54b74ed5f683132a464e95643b226e00c2ed2fa6535
-  patches:
-    - patches/0001-remove-fancy-pypi-readme.patch
+  sha256: 6e34463af53fd2ab5d807f399a9b45ea31c3dfa2276f15a2c3f00afff6e176e8
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: True  # [py<38 or s390x]
+  skip: True  # [py<38]
 
 requirements:
-  build:
-    - patch  # [unix]
-    - m2-patch  # [win]
   host:
     - pip
     - python
-    - setuptools
-    - wheel
     - hatchling
+    - hatch-fancy-pypi-readme
   run:
     - python
     - certifi
-    - h11 >=0.13,<0.15
+    - h11 >=0.16
 
 test:
   requires:
